@@ -6,7 +6,8 @@ import { get, post } from '../axios'
 
 // 使用方法
 export const apiUser = p => get('/api', p)
-export const apiUser2 = p => post('/api/?results=100', p)
+export const apiUser2 = p => get('/api', p)
+export const apiUser3 = p => post('/api', p)
 
 // 调用方式
 

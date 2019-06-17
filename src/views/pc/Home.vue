@@ -2,13 +2,14 @@
   <div>
     <p class="zhu">i'm pc</p>
     <button @click="test">get</button>
-    <button @click="test2">post</button>
+    <button @click="test2">get2</button>
+    <button @click="test3">post</button>
     {{user}}
     <div v-html="html"></div>
   </div>
 </template>
 <script>
-import { apiUser, apiUser2 } from '@/api'
+import { apiUser, apiUser2, apiUser3 } from '@/api'
 export default {
   data() {
     return {
@@ -28,7 +29,7 @@ export default {
       // }).catch((err) => {
       //   this.html = '加载失败'
       // })
-      apiUser({ results: 300 }).then(res => {
+      apiUser({ results: 100 }).then(res => {
         console.log(res)
       }).catch(err => {
 
@@ -36,6 +37,13 @@ export default {
     },
     test2() {
       apiUser2({ results: 300 }).then(res => {
+        console.log(res)
+      }).catch(err => {
+
+      })
+    },
+    test3() {
+      apiUser3({ results: 300 }).then(res => {
         console.log(res)
       }).catch(err => {
 
