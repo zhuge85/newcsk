@@ -9,11 +9,51 @@ import md5 from 'js-md5'
 import Qs from 'qs'
 import { Message } from 'element-ui'
 
-// 限制快速点击
-let requesting = []
-let limitTime = 1000
+// 限制post快速点击
+let requestingArr = []
+let limitTime = 2000
 let requestingId = ''
 
+// 取消重复点击的操作
+let pending = []
+let cancelToken = axios.CancelToken
+
+// const LimitRapidClick = config => {
+//   if (config.method === 'post') {
+//     requestingId = md5.hex(JSON.stringify(config.data))
+//     let nowTime = new Date().getTime()
+//     requestingArr = requestingArr.filter(item => {
+//       return item.startTime + limitTime > nowTime
+//     })
+//     console.log(requestingArr)
+//     let sessionUrl = requestingArr.filter(item => {
+//       return item.requestingId === requestingId
+//     })
+//     if (sessionUrl.length > 0) {
+//       Message.error('请求重复 中断请求!')
+//       // return new Error('请求重复 中断请求!')
+//       config.cancelToken = new cancelToken(c => {
+//         // 这里的ajax标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
+//         pending.push({ u: config.url + '&' + config.method, f: c })
+//       })
+//     }
+//     let item = {
+//       requestingId: requestingId,
+//       startTime: nowTime
+//     }
+//     requestingArr.push(item)
+//   }
+// }
+
+const removePending = ever => {
+  for (let p in pending) {
+    if (pending[p].u === ever.url + '&' + ever.method) {
+      // 当前请求在数组中存在时执行函数体
+      pending[p].f() //执行取消操作
+      pending.splice(p, 1) //把这条记录从数组中移除
+    }
+  }
+}
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -65,26 +105,17 @@ axios.interceptors.request.use(
       Message.error('请求方式错误！')
       return new Error('请求方式错误！')
     }
-    // 限制快速点击
-    if (config.method === 'post') {
-      requestingId = md5.hex(JSON.stringify(config.data))
-      let nowTime = new Date().getTime()
-      requesting = requesting.filter(item => {
-        return item.startTime + limitTime > nowTime
-      })
-      let sessionUrl = requesting.filter(item => {
-        return item.requestingId === requestingId
-      })
-      if (sessionUrl.length > 0) {
-        Message.error('请求重复 中断请求!')
-        return new Error('请求重复 中断请求!')
-      }
-      let item = {
-        requestingId: requestingId,
-        startTime: nowTime
-      }
-      requesting.push(item)
-    }
+    // // 限制快速点击
+    // LimitRapidClick(config)
+
+    // 取消重复点击的操作
+
+    // 在一个ajax发送前执行一下取消操作
+    removePending(config)
+    config.cancelToken = new cancelToken(c => {
+      // 这里的ajax标识我是用请求地址&请求方式拼接的字符串，当然你可以选择其他的一些方式
+      pending.push({ u: config.url + '&' + config.method, f: c })
+    })
     return config
   },
   error => {
@@ -95,6 +126,8 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
   response => {
+    // 在一个ajax响应后再执行一下取消操作，把已经完成的请求从pending中移除
+    removePending(response.config)
     if (response.status === 200) {
       return Promise.resolve(response)
     } else {

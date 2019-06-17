@@ -146,7 +146,7 @@ module.exports = {
     proxy: {
       // 配置跨域
       "/api": {
-        target: "http://192.168.3.111:8080/api/",
+        target: "https://randomuser.me/api/",
         ws: true,
         changOrigin: true,
         pathRewrite: {

@@ -9,6 +9,12 @@
 <script>
 export default {
   created() {
+    document.documentElement.classList.add('loaded')
+    setTimeout(() => {
+      document.body.removeChild(document.getElementById('loading-wrapper'));
+      document.documentElement.removeAttribute('class')
+      // document.documentElement.classList.remove('loaded')
+    }, 1200)
     if (this._isMobile() && this.$route.path.indexOf('/m/') == -1) {
       this.$router.push('/m');
     } else {

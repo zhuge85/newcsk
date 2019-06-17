@@ -5,7 +5,8 @@
 import { get, post } from '../axios'
 
 // 使用方法
-// export const apiUser = p => post('/api/userinfo', p);
+export const apiUser = p => get('/api', p)
+export const apiUser2 = p => post('/api/?results=100', p)
 
 // 调用方式
 
@@ -20,7 +21,7 @@ import { get, post } from '../axios'
 //         sort: 1
 //       }).then(res => {
 //         // 获取数据成功后的其他操作
-//       })
+//       }).catch(err=>{})
 //     }
 //   }
 // }
