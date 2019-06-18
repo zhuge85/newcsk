@@ -5,12 +5,13 @@
     <button @click="test2">get2</button>
     <button @click="test3">post</button>
     <button @click="mockuser">获取mock</button>
+    <button @click="mocklogin">获取mock</button>
     {{user}}
     <div v-html="html"></div>
   </div>
 </template>
 <script>
-import { apiUser, apiUser2, apiUser3, mockuser } from '@/api'
+import { apiUser, apiUser2, apiUser3, mockuser, mocklogin } from '@/api'
 export default {
   data() {
     return {
@@ -51,6 +52,12 @@ export default {
     },
     mockuser() {
       mockuser().then(res => {
+        console.log(res)
+      }).catch(err => {
+      })
+    },
+    mocklogin() {
+      mocklogin({ username: 'admin', password: 123456 }).then(res => {
         console.log(res)
       }).catch(err => {
       })
