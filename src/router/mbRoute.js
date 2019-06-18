@@ -1,6 +1,6 @@
 const mbRoute = [
   {
-    path: '/m',
+    path: '/m/',
     component: resolve => require(['../views/pc/Home'], resolve),
     children: []
   }

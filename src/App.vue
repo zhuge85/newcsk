@@ -16,7 +16,7 @@ export default {
       // document.documentElement.classList.remove('loaded')
     }, 1200)
     if (this._isMobile() && this.$route.path.indexOf('/m/') == -1) {
-      this.$router.push('/m');
+      this.$router.push('/m/');
     } else {
       if (this.$route.path.indexOf('/m/') !== -1) {
         this.$router.push('/');

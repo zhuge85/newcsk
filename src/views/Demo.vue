@@ -28,9 +28,11 @@ export default {
     ]),
     changeName() {
       this.$store.dispatch('setUser', this.value)
+      // this.$store.commit('SET_USER', this.value);
     },
     changeName2() {
       this.$store.dispatch('xiaozhu/setUser', this.value2)
+      // this.$store.commit('xiaozhu/SET_USER', this.value2)
     },
     ...mapActions('xiaozhu', ['alertName'])
   },
