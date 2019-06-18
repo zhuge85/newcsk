@@ -1,20 +1,20 @@
-"use strict";
-const path = require("path");
-const debug = process.env.NODE_ENV !== "production";
+'use strict'
+const path = require('path')
+const debug = process.env.NODE_ENV !== 'production'
 function resolve(dir) {
-  return path.join(__dirname, dir);
+  return path.join(__dirname, dir)
 }
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // 打包时去除打印信息（console）
 
 module.exports = {
   // 部署生产环境和开发环境下的URL
-  publicPath: process.env.NODE_ENV === "production" ? "/" : "/",
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
 
   // 构建输出目录 ，生成文件的目录名称（要和baseUrl的生产环境路径一致）
-  outputDir: "dist",
+  outputDir: 'dist',
 
   // 静态资源目录 (js, css, img, fonts)
-  assetsDir: "assets",
+  assetsDir: 'assets',
 
   // 指定生成的 index.html 的输出路径  (打包之后，改变系统默认的index.html的文件名)
   // indexPath: "myIndex.html",
@@ -50,44 +50,45 @@ module.exports = {
   // webpack链接API，用于生成和修改webapck配置，https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
   chainWebpack: config => {
     // 修复HMR
-    config.resolve.symlinks(true);
+    config.resolve.symlinks(true)
     //修改文件引入自定义路径 开发生产共同配置
     config.resolve.alias
-      .set("@", resolve("./src"))
-      .set("@c", resolve("./src/components"))
-      .set("@v", resolve("./src/views"))
-      .set("@img", resolve("./src/assets/img"));
+      .set('@', resolve('./src'))
+      .set('@c', resolve('./src/components'))
+      .set('@v', resolve('./src/views'))
+      .set('@a', resolve('./src/assets'))
+      .set('@img', resolve('./src/assets/img'))
     if (debug) {
       // 本地开发配置
     } else {
       // 生产开发配置
       config.module
-        .rule("images")
-        .use("url-loader")
-        .loader("url-loader")
-        .tap(options => Object.assign(options, { limit: 10240 }));
+        .rule('images')
+        .use('url-loader')
+        .loader('url-loader')
+        .tap(options => Object.assign(options, { limit: 10240 }))
     }
   },
 
-  transpileDependencies: ["uglifyjs-webpack-plugin"],
+  transpileDependencies: ['uglifyjs-webpack-plugin'],
   // webpack配置，值位对象时会合并配置，为方法时会改写配置
   configureWebpack: config => {
     if (debug) {
       // 开发环境配置
       // 为开发环境修改配置...
-      config.mode = "development";
-      config.devtool = "cheap-module-eval-source-map";
+      config.mode = 'development'
+      config.devtool = 'cheap-module-eval-source-map'
     } else {
       // 生产环境配置
       // 为生产环境修改配置...
-      config.mode = "production";
+      config.mode = 'production'
       // 必须添加环境判断代码，因为development环境下config.optimization是undefined
       // config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
       // 将每个依赖包打包成单独的js文件
       let optimization = {
-        runtimeChunk: "single",
+        runtimeChunk: 'single',
         splitChunks: {
-          chunks: "all",
+          chunks: 'all',
           maxInitialRequests: Infinity,
           minSize: 20000,
           cacheGroups: {
@@ -98,17 +99,17 @@ module.exports = {
                 // or node_modules/packageName
                 const packageName = module.context.match(
                   /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-                )[1];
+                )[1]
                 // npm package names are URL-safe, but some servers don't like @ symbols
-                return `npm.${packageName.replace("@", "")}`;
+                return `npm.${packageName.replace('@', '')}`
               }
             }
           }
         }
-      };
+      }
       Object.assign(config, {
         optimization
-      });
+      })
     }
   },
   // 将组件内部的css提取到一个单独的css文件（只用在生产环境）
@@ -125,7 +126,7 @@ module.exports = {
     modules: false // 启用 CSS modules for all css / pre-processor files.
   },
 
-  parallel: require("os").cpus().length > 1, // 构建时开启多进程处理babel编译
+  parallel: require('os').cpus().length > 1, // 构建时开启多进程处理babel编译
 
   pwa: {
     // 单页插件相关配置 https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa
@@ -133,7 +134,7 @@ module.exports = {
   // webpack-dev-server 相关配置
   devServer: {
     open: true, //配置自动启动浏览器
-    host: "localhost", // 允许外部ip访问 localhost 0.0.0.0
+    host: 'localhost', // 允许外部ip访问 localhost 0.0.0.0
     port: 8080, // 端口号
     https: false, // 启用https
     hotOnly: false,
@@ -145,12 +146,12 @@ module.exports = {
     // proxy: 'http://localhost:4000' // 配置跨域处理,只有一个代理
     proxy: {
       // 配置跨域
-      "/api": {
-        target: "https://randomuser.me/api/",
+      '/api': {
+        target: 'https://randomuser.me/api/',
         ws: true,
         changOrigin: true,
         pathRewrite: {
-          "^/api": ""
+          '^/api': ''
         }
       }
     }, // 代理转发配置，用于调试环境
@@ -160,4 +161,4 @@ module.exports = {
   pluginOptions: {
     // 第三方插件配置
   }
-};
+}

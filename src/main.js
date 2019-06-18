@@ -6,6 +6,9 @@ import store from './store'
 import axios from './axios'
 Vue.prototype.$axios = axios
 
+console.log(process.env.NODE_ENV)
+process.env.NODE_ENV !== 'development' && require('./mock/')
+
 import {
   Button,
   Select,

@@ -9,6 +9,8 @@ export const apiUser = p => get('/api', p)
 export const apiUser2 = p => get('/api', p)
 export const apiUser3 = p => post('/api', p)
 
+export const mockuser = p => get('/api2/users', p)
+
 // 调用方式
 
 // import { apiUser } from '@/api' // 导入我们的api接口
