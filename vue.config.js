@@ -133,7 +133,7 @@ module.exports = {
   },
   // webpack-dev-server 相关配置
   devServer: {
-    open: true, //配置自动启动浏览器
+    open: false, //配置自动启动浏览器
     host: 'localhost', // 允许外部ip访问 localhost 0.0.0.0
     port: 8080, // 端口号
     https: false, // 启用https

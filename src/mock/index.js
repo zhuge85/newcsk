@@ -1,10 +1,14 @@
 import Mock from 'mockjs'
 
 const Random = Mock.Random
+// 生成由随机整数组成的数组，数组长度和元素大小可自定义
+const NumArr = (length, limit) =>
+  Array.from({ length }, _ => Math.floor(Math.random() * limit))
 
 Mock.setup({
   timeout: 800 // 设置延迟响应，模拟向后端请求数据
 })
+let time = new Array(10).fill(Random.integer(1, 12) * 100)
 
 // 登录
 Mock.mock('/api/login', 'post', option => {
@@ -14,7 +18,7 @@ Mock.mock('/api/login', 'post', option => {
     obj[arr[0]] = arr[1]
   })
   let { username, password } = obj
-  return username === 'admin' && password === '123456'
+  return username === '342393950@qq.com' && password === '123456'
     ? {
         code: 200,
         msg: '登陆成功！'
