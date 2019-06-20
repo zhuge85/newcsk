@@ -1,5 +1,7 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
+// import { GameHeader } from '@/mixins'
 export const TheAll = {
+  // mixins: [GameHeader],
   directives: {
     focus: {
       inserted: function(el) {
