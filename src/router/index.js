@@ -22,6 +22,10 @@ const router = new VueRouter({
       component: resolve => require(['../views/Demo'], resolve)
     },
     {
+      path: '/date',
+      component: resolve => require(['../views/Date'], resolve)
+    },
+    {
       path: '*',
       component: resolve => require(['../views/404'], resolve)
     }

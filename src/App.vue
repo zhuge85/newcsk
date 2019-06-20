@@ -2,6 +2,7 @@
   <div id="app">
     <router-link to="/index">index</router-link>
     <router-link to="/demo">test</router-link>
+    <router-link to="/date">date</router-link>
     <router-view />
   </div>
 </template>

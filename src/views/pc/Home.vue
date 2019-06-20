@@ -22,6 +22,7 @@ export default {
   },
   mounted() {
     // this.load(this.url)
+    this.table()
   },
   methods: {
     test() {
@@ -61,6 +62,18 @@ export default {
         console.log(res)
       }).catch(err => {
       })
+    },
+    table() {
+      let str = '<table>';
+      for (let i = 1; i < 10; i++) {
+        str += '<tr>';
+        for (let j = 1; j <= i; j++) {
+          str += `<td>${j}*${i}=${j * i}</td>`;
+        }
+        str += '</tr>';
+      }
+      str += '</table>';
+      this.html = str
     }
   },
   computed: {
