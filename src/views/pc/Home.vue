@@ -8,16 +8,45 @@
     <button @click="mocklogin">获取mock</button>
     {{user}}
     <div v-html="html"></div>
+    <Child :list="list">
+      <template v-for="item in list" #[item.id]>
+        {{item.title}}
+      </template>
+    </Child>
+    <p>-----------------------------</p>
+    <Child :list="list">
+      <template #header="{msg}">{{msg}}</template>
+      <template v-slot:item="{ item }">{{item.title}}1111</template>
+      <template #22222>22222</template>
+      <template #33333>33333</template>
+      <template #footer="msg">{{msg}}</template>
+    </Child>
   </div>
 </template>
 <script>
 import { apiUser, apiUser2, apiUser3, mockuser, mocklogin } from '@/api'
+import Child from '@c/pc/Child'
 export default {
+  components: { Child },
   data() {
     return {
       url: '/api/apipage/index.html',
       loading: false,
-      html: 'img--asdasd-img'
+      html: 'img--asdasd-img',
+      list: [
+        {
+          id: 1,
+          title: '11111'
+        },
+        {
+          id: 2,
+          title: '22222'
+        },
+        {
+          id: 3,
+          title: '33333'
+        }
+      ]
     }
   },
   mounted() {
