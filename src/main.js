@@ -61,6 +61,12 @@ Vue.use(Loading)
 
 Vue.prototype.$message = Message
 
+import calendar from './plugin/calendar/'
+Vue.use(calendar)
+
+import Dialog2 from './plugin/dialog/'
+Vue.use(Dialog2)
+
 Vue.config.productionTip = false
 
 new Vue({

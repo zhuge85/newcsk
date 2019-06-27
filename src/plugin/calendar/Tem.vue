@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <input v-focus type="text" @click="test($event)">
-  </div>
+  <div id="showCld"></div>
 </template>
 
 <script>
@@ -9,24 +7,19 @@ export default {
   directives: {
     focus: {
       inserted: function (el) {
-        el.onfocus = () => {
-          // console.log(el)
-          // this.$calendar({ title: '温馨提示' })
-
-        }
+        el.focus()
       }
     }
   },
   data() {
-    let time = new Date(),
-      year = time.getFullYear(),
-      month = time.getMonth() + 1,
-      day = time.getDate(),
+    let date = new Date(),
+      year = date.getFullYear(),
+      month = date.getMonth() + 1,
+      day = date.getDate(),
       today = year + '-' + month + '-' + day,
       monthLength = 30,
       week = ['日', '一', '二', '三', '四', '五', '六'],
-      total = 42,
-      select = year + '-' + month + '-' + day
+      total = 42
     return {
       year,
       month,
@@ -35,27 +28,25 @@ export default {
       monthLength,
       week,
       total,
-      select
+      select: today,
+      time: '',
+      e: ''
     }
   },
   created() {
-    // this.CalendarDom()
-    // this.$nextTick(() => {})
+    this.$nextTick(() => {
+      this.time && (this.select = this.time)
+      this.CalendarDom()
+    })
   },
   methods: {
-    test(e) {
-      this.$calendar({ e: e.target, time: e.target.value }).then((res) => { })
-      // this.$dialog({
-      //   title: '温馨提示',
-      //   cancel: '取消按钮',
-      //   confirm: '确定按钮',
-      //   content: '',
-      //   className: 'classname'
-      // }).then((res) => {
-      //   console.log(res)
-      // }).catch((err) => {
-      //   console.log("点击取消");
-      // })
+    selectBtn() {
+      let calendar = document.getElementById('showCld')
+      document.body.removeChild(calendar)
+    },
+    cancelBtn() {
+      let calendar = document.getElementById('showCld')
+      document.body.removeChild(calendar)
     },
     getMonthDates(year, month) {
       return new Date(year, month, 0).getDate()
@@ -64,9 +55,10 @@ export default {
       return new Date(year, month - 1, 1).getDay()
     },
     CalendarDom(parent) {
-      let calendar = document.createElement('div')
-      calendar.setAttribute('id', 'showCld')
-      document.body.appendChild(calendar)
+      // let calendar = document.createElement('div')
+      // calendar.setAttribute('id', 'showCld')
+      // document.body.appendChild(calendar)
+      let calendar = document.getElementById('showCld')
       let html = `
         <div class="picker-panel-body">
           <div class="picker-panel-header">
@@ -103,8 +95,7 @@ export default {
             arr.unshift(i)
           }
           let nextMonth = this.total - arr.length - thisMonth,
-            isShow = this.year + '-' + this.month + '-' + this.day == this.today,
-            isSelect = this.year + '-' + this.month + '-' + this.day == this.select
+            isShow = this.year + '-' + this.month + '-' + this.day == this.today
           for (let i = 0, len = arr.length; i < len; i++) {
             html += `<span class="picker-cells-cell-prev-month">
                 <em>${arr[i]}</em>
@@ -113,7 +104,7 @@ export default {
           for (let i = 1; i <= thisMonth; i++) {
             html += `<span class="picker-cells-cell-month${
               isShow && i == this.day ? ' picker-cells-cell-today' : ''
-              } ${isSelect && i == this.day ? 'picker-cells-cell-selected' : ''}">
+              } ${this.select == this.year + '-' + this.month + '-' + i ? 'picker-cells-cell-selected' : ''}">
                 <em>${i}</em>
               </span>`
           }
@@ -128,7 +119,7 @@ export default {
       start()
       body.addEventListener( // removeEventListener
         'click',
-        function (e) {
+        (e) => {
           let name, value, node
           if (e.target.nodeName === 'EM') {
             name = e.target.parentNode.className
@@ -144,19 +135,16 @@ export default {
             case name.includes('picker-cells-cell-month'):
               this.day = value
               this.select = this.year + '-' + this.month + '-' + this.day
-              start()
               break
             case name.includes('picker-cells-cell-prev-month'):
               this.month = this.month - 1
               this.day = value
               this.select = this.year + '-' + this.month + '-' + this.day
-              start()
               break
             case name.includes('picker-cells-cell-next-month'):
               this.month = this.month + 1
               this.day = value
               this.select = this.year + '-' + this.month + '-' + this.day
-              start()
               break
             default:
               console.log('估计是外星时间')
@@ -164,13 +152,17 @@ export default {
           if (parent) {
             parent.value = this.select
           }
-          calendar.classList.add('leave-active')
-          setTimeout(() => {
-            calendar.style.display = 'none'
-          }, 190)
-          setTimeout(() => {
-            calendar.classList.remove('leave-active')
-          }, 200)
+          this.e.value = this.select
+          this.selectBtn()
+          // document.body.removeChild(calendar)
+          // start()
+          // calendar.classList.add('leave-active')
+          // setTimeout(() => {
+          //   calendar.style.display = 'none'
+          // }, 190)
+          // setTimeout(() => {
+          //   calendar.classList.remove('leave-active')
+          // }, 200)
         },
         true
       )
