@@ -1,113 +1,107 @@
 <template>
-  <div>
-    <p class="zhu">i'm pc</p>
-    <button @click="test">get</button>
-    <button @click="test2">get2</button>
-    <button @click="test3">post</button>
-    <button @click="mockuser">获取mock</button>
-    <button @click="mocklogin">获取mock</button>
-    {{user}}
-    <div v-html="html"></div>
-    <Child :list="list">
-      <template v-for="item in list" #[item.id]>
-        {{item.title}}
-      </template>
-    </Child>
-    <p>-----------------------------</p>
-    <Child :list="list">
-      <template #header="{msg}">{{msg}}</template>
-      <template v-slot:item="{ item }">{{item.title}}1111</template>
-      <template #22222>22222</template>
-      <template #33333>33333</template>
-      <template #footer="msg">{{msg}}</template>
-    </Child>
+  <div class="home">
+    <h2>乘法表</h2>
+    <div class="item" v-html="html"></div>
+    <h2>v-model.number设置value类型为number</h2>
+    <div class="item">
+      <input v-model.number="value" class="zhu-input" type="text" placeholder="value的类型">
+      <button class="btn" @click="valueType">显示value类型</button>
+    </div>
+    <h2>正则转化value2为不能以0开头的数字</h2>
+    <div class="item">
+      <input v-model="value2" @input="value2=value2.replace(/^(0+)|[^\d]+/gi,'')" pattern="[0-9]*" class="zhu-input" type="text" placeholder="输入数字">
+    </div>
+    <h2>单色按钮</h2>
+    <div class="item">
+      <button class="btn">默认提示</button>
+      <button class="btn btn-info">蓝色提示</button>
+      <button class="btn btn-primary">蓝色提示</button>
+      <button class="btn btn-danger">错误提示</button>
+      <button class="btn btn-warning">警告提示</button>
+      <button class="btn btn-success">成功提示</button>
+    </div>
+    <h2>渐变按钮</h2>
+    <div class="item">
+      <button class="btn btn-pink">粉色</button>
+      <button class="btn btn-green">绿色</button>
+      <button class="btn btn-purple">紫色</button>
+      <button class="btn btn-orange">橙色</button>
+      <button class="btn btn-blue">橙色</button>
+    </div>
+    <div class="item">
+      <div class="btn" @click="openRoom">聊天框</div>
+      <div class="btn" @click="open">赛车</div>
+    </div>
+    <Chat ref="chat" v-if="isVisible" :isVisible="isVisible" @close="toggleisVisible"></Chat>
+    <Car :show="show" @close="close"></Car>
   </div>
 </template>
 <script>
-import { apiUser, apiUser2, apiUser3, mockuser, mocklogin } from '@/api'
 import Child from '@c/pc/Child'
+import Chat from '@c/pc/Chat'
+import Car from '@c/pc/Car'
 export default {
-  components: { Child },
+  components: { Child, Chat, Car },
   data() {
     return {
-      url: '/api/apipage/index.html',
-      loading: false,
-      html: 'img--asdasd-img',
-      list: [
-        {
-          id: 1,
-          title: '11111'
-        },
-        {
-          id: 2,
-          title: '22222'
-        },
-        {
-          id: 3,
-          title: '33333'
-        }
-      ]
+      value: '',
+      value2: '',
+      html: '',
+      timer: null,
+      requesttime: 1000,
+      isVisible: false,
+      show: false
     }
   },
   mounted() {
-    // this.load(this.url)
     this.table()
+    // this.time()
   },
   methods: {
-    test() {
-      // this.$axios.get('/api/?results=500').then((res) => {
-      //   console.log(res)
-      //   this.html = res.data
-      // }).catch((err) => {
-      //   this.html = '加载失败'
-      // })
-      apiUser({ results: 100 }).then(res => {
-        console.log(res)
-      }).catch(err => {
-
-      })
-    },
-    test2() {
-      apiUser2({ results: 300 }).then(res => {
-        console.log(res)
-      }).catch(err => {
-
-      })
-    },
-    test3() {
-      apiUser3({ results: 300 }).then(res => {
-        console.log(res)
-      }).catch(err => {
-      })
-    },
-    mockuser() {
-      mockuser().then(res => {
-        console.log(res)
-      }).catch(err => {
-      })
-    },
-    mocklogin() {
-      mocklogin({ username: 'admin', password: 123456 }).then(res => {
-        console.log(res)
-      }).catch(err => {
-      })
-    },
     table() {
-      let str = '<table>';
+      let str = '<table class="multiplication-table">';
       for (let i = 1; i < 10; i++) {
         str += '<tr>';
         for (let j = 1; j <= i; j++) {
-          str += `<td>${j}*${i}=${j * i}</td>`;
+          str += `<td>${j} x ${i} = ${j * i}</td>`;
         }
         str += '</tr>';
       }
       str += '</table>';
       this.html = str
-    }
-  },
-  computed: {
-    user() {
-      return this.$store.getters.user;
+    },
+    valueType() {
+      this.$message('this.value的类型是：' + typeof this.value)
+    },
+    openRoom() {
+      this.isVisible ? this.$refs.chat.max() : this.isVisible = true
+    },
+    open() {
+      this.show = true
+    },
+    close() {
+      this.show = false
+    },
+    toggleisVisible() {
+      this.isVisible = !this.isVisible
+    },
+    time() {
+      let time = 10
+      this.timer = setInterval(() => {
+        console.log(time)
+        if (time == 0) {
+          clearInterval(this.timer);
+          this.timer = null
+          this.$message('倒计时结束', 'success')
+        } else {
+          time--
+        }
+      }, this.requesttime)
+      // 清除定时器
+      this.$once('hook:beforeDestroy', () => {
+        clearInterval(this.timer);
+        this.timer = null
+      })
     }
   }
 }

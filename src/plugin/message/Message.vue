@@ -1,10 +1,9 @@
 <template>
   <transition name="fade">
-    <div class="message" :class="'message-' + type" v-if="visible">
+    <div class="zhu-message" :class="'message-' + type" v-if="visible">
       <i class="icon-iconfont" :class="'icon-' + type"></i>
-      <div class="content">{{content}}
-        <i v-if="hasClose" class="btn-close iconfont icon-close" @click="visible=false"></i>
-      </div>
+      <div class="content">{{content}}</div>
+      <i v-if="hasClose" class="btn-close icon-iconfont icon-close" @click="visible=false"></i>
     </div>
   </transition>
 </template>
@@ -18,7 +17,7 @@ export default {
       time: 5000,
       visible: false,
       type: 'info',//'success','warning','error'
-      hasClose: false,
+      hasClose: true,
     }
   },
   mounted() {
@@ -37,23 +36,33 @@ export default {
 }
 </script>
 <style lang="less">
-.message {
+.zhu-message {
+  z-index: 1000;
+  position: fixed;
   min-width: 380px;
   box-sizing: border-box;
   border-radius: 4px;
   border: 1px solid #ebeef5;
-  position: fixed;
   left: 50%;
   top: 20px;
   transform: translateX(-50%);
   background-color: #edf2fc;
-  transition: opacity 0.2s, transform 0.3s;
+  transition: opacity 0.1s, transform 0.2s;
   overflow: hidden;
   padding: 15px 15px 15px 20px;
   display: flex;
   align-items: center;
+  .btn-close {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-right: 0;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #c0c4cc;
+    font-size: 16px;
+  }
 }
-
 .fade-enter-active,
 .fade-leave-active {
   opacity: 0;
@@ -90,6 +99,12 @@ export default {
   height: 16px;
   margin-right: 10px;
   background-size: 100%;
+}
+.icon-close {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTIyMC4zMTQgMjU2LjUxMkw3OTkuNTkgODM1Ljc4OWEyNS42IDI1LjYgMCAxIDAgMzYuMTk5LTM2LjE5OUwyNTYuNTEyIDIyMC4zMTRhMjUuNiAyNS42IDAgMSAwLTM2LjE5OCAzNi4xOTh6IiBmaWxsPSIjY2RjZGNkIi8+PHBhdGggZD0iTTc5OS41OSAyMjAuMzE0TDIyMC4zMTQgNzk5LjU5YTI1LjYgMjUuNiAwIDEgMCAzNi4xOTggMzYuMTk5bDU3OS4yNzctNTc5LjI3N2EyNS42IDI1LjYgMCAxIDAtMzYuMTk5LTM2LjE5OHoiIGZpbGw9IiNjZGNkY2QiLz48L3N2Zz4=');
+  &:hover {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTIyMC4zMTQgMjU2LjUxMkw3OTkuNTkgODM1Ljc4OWEyNS42IDI1LjYgMCAxIDAgMzYuMTk5LTM2LjE5OUwyNTYuNTEyIDIyMC4zMTRhMjUuNiAyNS42IDAgMSAwLTM2LjE5OCAzNi4xOTh6IiBmaWxsPSIjOGE4YThhIi8+PHBhdGggZD0iTTc5OS41OSAyMjAuMzE0TDIyMC4zMTQgNzk5LjU5YTI1LjYgMjUuNiAwIDEgMCAzNi4xOTggMzYuMTk5bDU3OS4yNzctNTc5LjI3N2EyNS42IDI1LjYgMCAxIDAtMzYuMTk5LTM2LjE5OHoiIGZpbGw9IiM4YThhOGEiLz48L3N2Zz4=');
+  }
 }
 .icon-info {
   background-image: url('data:image/svg+xml;%20charset=utf8,%3C?xml%20version=%221.0%22%20standalone=%22no%22?%3E%3C!DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.1//EN%22%20%22http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E%3Csvg%20t=%221557748000156%22%20class=%22icon%22%20style=%22%22%20viewBox=%220%200%201024%201024%22%20version=%221.1%22%20xmlns=%22http://www.w3.org/2000/svg%22%20p-id=%229100%22%20xmlns:xlink=%22http://www.w3.org/1999/xlink%22%20width=%22200%22%20height=%22200%22%3E%3Cdefs%3E%3Cstyle%20type=%22text/css%22%3E%3C/style%3E%3C/defs%3E%3Cpath%20d=%22M512%2064C264.6%2064%2064%20264.6%2064%20512s200.6%20448%20448%20448%20448-200.6%20448-448S759.4%2064%20512%2064z%20m84%20343.1l-87%20301.4c-4.8%2017.2-7.2%2028.6-7.2%2033.9%200%203.1%201.3%206%203.8%208.7s5.2%204%208.1%204c4.8%200%209.6-2.1%2014.4-6.4%2012.7-10.5%2028-29.4%2045.8-56.8l14.4%208.5c-42.7%2074.4-88%20111.6-136.1%20111.6-18.4%200-33-5.2-43.9-15.5-10.9-10.3-16.3-23.4-16.3-39.2%200-10.5%202.4-23.7%207.2-39.9l58.9-202.7c5.7-19.5%208.5-34.2%208.5-44.1%200-6.2-2.7-11.7-8.1-16.5-5.4-4.8-12.7-7.2-22-7.2-4.2%200-9.3%200.1-15.3%200.4l5.5-17L570.4%20407H596v0.1z%20m17.8-88.7c-12.2%2012.2-26.9%2018.2-44.1%2018.2-17%200-31.5-6.1-43.7-18.2-12.2-12.2-18.2-26.9-18.2-44.1s6-31.9%2018-44.1c12-12.1%2026.6-18.2%2043.9-18.2%2017.5%200%2032.3%206.1%2044.3%2018.2%2012%2012.2%2018%2026.9%2018%2044.1s-6.1%2031.9-18.2%2044.1z%22%20p-id=%229101%22%20fill=%22#909399%22%3E%3C/path%3E%3C/svg%3E');

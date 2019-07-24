@@ -2,7 +2,7 @@ const types = {
   SET_USER: 'SET_USER'
 }
 const state = {
-  user: 'xiaozhu'
+  user: 'modules xiaozhu'
 }
 const getters = {
   user2: state => state.user

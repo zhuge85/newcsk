@@ -17,16 +17,22 @@ Mock.mock('/api/login', 'post', option => {
     let arr = item.split('=')
     obj[arr[0]] = arr[1]
   })
-  let { username, password } = obj
-  return username === '342393950@qq.com' && password === '123456'
-    ? {
-        code: 200,
-        msg: '登陆成功！'
-      }
-    : {
-        code: 400,
-        msg: '账号密码不正确！'
-      }
+  let { username, password } = obj,
+    msg = '',
+    code = 400
+  // console.log(username, password)
+  if (username !== 'admin') {
+    msg = '用户名不存在！'
+  } else if (password !== '123456') {
+    msg = '密码不正确！'
+  } else {
+    msg = '登陆成功！'
+    code = 200
+  }
+  return {
+    code,
+    msg
+  }
 })
 
 // 用户数据
@@ -37,9 +43,13 @@ const userData = () => {
     date: Random.date('yyyy-MM-dd'),
     name: Random.cname(),
     address: Mock.mock('@county(true)'),
-    phone: Mock.mock(/^1[0-9]{10}$/),
+    phone: Mock.mock(/^1[3456789]\d{9}$/),
     status: Random.integer(0, 1)
   }))
-  return users
+  return {
+    code: 200,
+    msg: '获取数据成功！',
+    data: users
+  }
 }
-Mock.mock('/api/users', 'get', userData)
+Mock.mock(RegExp('/api/users' + '.*'), 'get', userData)

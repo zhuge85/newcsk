@@ -18,16 +18,16 @@ const router = new VueRouter({
     ...pcRoute,
     ...mbRoute,
     {
-      path: '/demo',
-      component: resolve => require(['../views/Demo'], resolve)
-    },
-    {
-      path: '/date',
-      component: resolve => require(['../views/Date'], resolve)
-    },
-    {
       path: '*',
-      component: resolve => require(['../views/404'], resolve)
+      redirect: '/404'
+    },
+    {
+      path: '/404',
+      component: resolve => require(['@v/404'], resolve)
+    },
+    {
+      path: '/403',
+      component: resolve => require(['@v/403'], resolve)
     }
   ]
 })
@@ -36,8 +36,8 @@ const router = new VueRouter({
 
 // router.beforeEach((to, from, next) => {})
 
-// router.afterEach((to, from, next) => {
-//   window.scrollTo(0, 0)
-// })
+router.afterEach((to, from, next) => {
+  window.scrollTo(0, 0)
+})
 
 export default router

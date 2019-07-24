@@ -15,6 +15,13 @@ const mutations = {
     } else {
       state.user = null
     }
+  },
+  [types.SET_NEWANIMATION](state, newAnimation) {
+    if (newAnimation) {
+      state.newAnimation = newAnimation
+    } else {
+      state.newAnimation = {}
+    }
   }
 }
 export default mutations

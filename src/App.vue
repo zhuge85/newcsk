@@ -1,27 +1,31 @@
 <template>
   <div id="app">
-    <router-link to="/index">index</router-link>
-    <router-link to="/demo">test</router-link>
-    <router-link to="/date">date</router-link>
-    <router-view />
+    <Header></Header>
+    <div class="body">
+      <div class="container">
+        <router-view />
+      </div>
+    </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
+import Header from '@c/pc/Header'
+import Footer from '@c/pc/Footer'
 export default {
+  components: { Header, Footer },
   created() {
     document.documentElement.classList.add('loaded')
     setTimeout(() => {
-      document.body.removeChild(document.getElementById('loading-wrapper'));
+      let dom = document.getElementById('loading-wrapper')
+      dom ? document.body.removeChild(dom) : '';
       document.documentElement.removeAttribute('class')
-      // document.documentElement.classList.remove('loaded')
     }, 1200)
     if (this._isMobile() && this.$route.path.indexOf('/m/') == -1) {
       this.$router.push('/m/');
-    } else {
-      if (this.$route.path.indexOf('/m/') !== -1) {
-        this.$router.push('/');
-      }
+    } else if (this.$route.path.indexOf('/m/') !== -1 && !this._isMobile()) {
+      this.$router.push('/');
     }
     if (sessionStorage.user) {
       const code = JSON.parse(sessionStorage.user);

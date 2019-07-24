@@ -6,7 +6,7 @@
 export default {
   directives: {
     focus: {
-      inserted: function (el) {
+      inserted(el) {
         el.focus()
       }
     }
@@ -28,26 +28,38 @@ export default {
       monthLength,
       week,
       total,
-      select: today,
-      time: '',
-      e: ''
+      t_year: year,
+      t_month: month,
+      t_day: day,
+      select: this.dom && this.dom.target.value || today,
+      dom: '',
+      top: 0,
+      left: 0
     }
   },
   created() {
     this.$nextTick(() => {
-      this.time && (this.select = this.time)
+      if (this.dom.target.value) {
+        let arr = this.dom.target.value.split('-').map(Number)
+        this.select = this.dom.target.value
+        this.year = arr[0]
+        this.month = arr[1]
+        this.day = arr[2]
+      }
+      this.top = this.dom.target.offsetTop + this.dom.target.offsetHeight
+      this.left = this.dom.target.offsetLeft
       this.CalendarDom()
     })
   },
   methods: {
     selectBtn() {
       let calendar = document.getElementById('showCld')
-      document.body.removeChild(calendar)
+      calendar && document.body.removeChild(calendar)
     },
-    cancelBtn() {
-      let calendar = document.getElementById('showCld')
-      document.body.removeChild(calendar)
-    },
+    // cancelBtn() {
+    //   let calendar = document.getElementById('showCld')
+    //   calendar && document.body.removeChild(calendar)
+    // },
     getMonthDates(year, month) {
       return new Date(year, month, 0).getDate()
     },
@@ -55,10 +67,9 @@ export default {
       return new Date(year, month - 1, 1).getDay()
     },
     CalendarDom(parent) {
-      // let calendar = document.createElement('div')
-      // calendar.setAttribute('id', 'showCld')
-      // document.body.appendChild(calendar)
-      let calendar = document.getElementById('showCld')
+      let calendar = document.getElementById('showCld');
+      calendar.style.top = this.top + 'px'
+      calendar.style.left = this.left + 'px'
       let html = `
         <div class="picker-panel-body">
           <div class="picker-panel-header">
@@ -95,7 +106,7 @@ export default {
             arr.unshift(i)
           }
           let nextMonth = this.total - arr.length - thisMonth,
-            isShow = this.year + '-' + this.month + '-' + this.day == this.today
+            isShow = this.year + '-' + this.month == this.t_year + '-' + this.t_month
           for (let i = 0, len = arr.length; i < len; i++) {
             html += `<span class="picker-cells-cell-prev-month">
                 <em>${arr[i]}</em>
@@ -103,7 +114,7 @@ export default {
           }
           for (let i = 1; i <= thisMonth; i++) {
             html += `<span class="picker-cells-cell-month${
-              isShow && i == this.day ? ' picker-cells-cell-today' : ''
+              isShow && i == this.t_day ? ' picker-cells-cell-today' : ''
               } ${this.select == this.year + '-' + this.month + '-' + i ? 'picker-cells-cell-selected' : ''}">
                 <em>${i}</em>
               </span>`
@@ -130,7 +141,6 @@ export default {
             value = parseInt(e.target.children[0].innerText)
             node = e.target
           }
-          // console.log(parent)
           switch (true) {
             case name.includes('picker-cells-cell-month'):
               this.day = value
@@ -152,7 +162,7 @@ export default {
           if (parent) {
             parent.value = this.select
           }
-          this.e.value = this.select
+          this.dom.target.value = this.select
           this.selectBtn()
           // document.body.removeChild(calendar)
           // start()
@@ -166,28 +176,35 @@ export default {
         },
         true
       )
-      calendar.onclick = function (e) {
+      document.body.onclick = (e) => {
+        let target = e.target || e.srcElement
+        let div = document.getElementById('showCld')
+        if (this.dom.target !== target) {
+          this.selectBtn()
+        }
+      }
+      calendar.onclick = (e) => {
         e.stopPropagation()
         e.cancelBubble = true
       }
-      mmin.onclick = function () {
+      mmin.onclick = () => {
         this.month--
         this.month == 0 ? [(this.month = 12), this.year--] : ''
         this.monthLength = this.getMonthDates(this.year, this.month)
         start()
       }
-      madd.onclick = function () {
+      madd.onclick = () => {
         this.month++
         this.month == 13 ? [(this.month = 1), this.year++] : ''
         this.monthLength = this.getMonthDates(this.year, this.month)
         start()
       }
-      ymin.onclick = function () {
+      ymin.onclick = () => {
         this.year--
         this.monthLength = this.getMonthDates(this.year, this.month)
         start()
       }
-      yadd.onclick = function () {
+      yadd.onclick = () => {
         this.year++
         this.monthLength = this.getMonthDates(this.year, this.month)
         start()

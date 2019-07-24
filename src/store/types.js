@@ -8,5 +8,6 @@ function keyMirror(obj) {
 }
 export default keyMirror({
   SET_TOKEN: null,
-  SET_USER: null
+  SET_USER: null,
+  SET_NEWANIMATION: null
 })

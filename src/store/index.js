@@ -9,8 +9,9 @@ import xiaozhu from './modules/xiaozhu'
 Vue.use(Vuex)
 
 const state = {
-  user: '全部人员公用',
-  token: ''
+  user: 'vuex state',
+  token: '',
+  newAnimation: {}
 }
 const getters = {
   ...getter

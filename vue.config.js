@@ -5,6 +5,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin') // 打包时去除打印信息（console）
+const user = require('./data/user.json') // 假数据
 
 module.exports = {
   // 部署生产环境和开发环境下的URL
@@ -73,6 +74,16 @@ module.exports = {
   transpileDependencies: ['uglifyjs-webpack-plugin'],
   // webpack配置，值位对象时会合并配置，为方法时会改写配置
   configureWebpack: config => {
+    // vue 优化CDN加速
+    // config.externals = {
+    //   vue: 'Vue',
+    //   vuex: 'Vuex',
+    //   'vue-router': 'VueRouter',
+    //   vuex: 'Vuex',
+    //   axios: 'axios',
+    //   VueLazyload: 'vue-lazyload'
+    //   // 'element-ui': 'ELEMENT'
+    // }
     if (debug) {
       // 开发环境配置
       // 为开发环境修改配置...
@@ -153,10 +164,38 @@ module.exports = {
         pathRewrite: {
           '^/api': ''
         }
+      },
+      '/api2': {
+        target: 'http://www.tp.com/static/api/',
+        ws: true,
+        changOrigin: true,
+        pathRewrite: {
+          '^/api2': ''
+        }
+      },
+      '/api3': {
+        target: 'http://39.100.71.143:8080/',
+        ws: true,
+        changOrigin: true,
+        pathRewrite: {
+          '^/api3': ''
+        }
+      }, // 配置多个代理
+      '/upload': {
+        target: 'http://www.tp.com/static/upload/',
+        ws: true,
+        changOrigin: true,
+        pathRewrite: {
+          '^/upload': ''
+        }
       }
     }, // 代理转发配置，用于调试环境
 
-    before: app => {}
+    before: app => {
+      app.get('/api/user.json', (req, res) => {
+        res.json(user)
+      })
+    }
   },
   pluginOptions: {
     // 第三方插件配置

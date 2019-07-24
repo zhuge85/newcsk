@@ -1,0 +1,47 @@
+.game-wrapper {
+  @road: 1104px;
+  @bg: 1334px;
+  @width: 1080px;
+  .main-box .animate {
+    width: 1080px;
+    height: 570px;
+    overflow: hidden;
+    position: relative;
+  }
+  .topbg {
+    width: 13340px; /*1334*/ /*1080*/
+    background: url('topbg.jpg') repeat-x;
+    height: 119px;
+    position: absolute;
+    top: 70px;
+    left: -12260px;
+    z-index: 5;
+    animation-fill-mode: forwards;
+  }
+  .animate-box {
+    background: url('road.jpg') repeat-x;
+    height: 380px;
+    width: 11040px; /*1104*/
+    position: absolute;
+    top: 189px;
+    left: -9960px;
+    z-index: 5;
+    animation-fill-mode: forwards;
+  }
+}
+
+.donghua {
+  .topbg,
+  .animate-box {
+    animation: marquee 10s linear infinite;
+  }
+}
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    // transform: translate3d(~'calc(100% - 1080px)', 0, 0);
+    transform: translate3d(calc(~'100% - @{width}'), 0, 0);
+  }
+}
