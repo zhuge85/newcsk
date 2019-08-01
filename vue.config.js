@@ -9,7 +9,7 @@ const user = require('./data/user.json') // 假数据
 
 module.exports = {
   // 部署生产环境和开发环境下的URL
-  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/new/' : '/',
 
   // 构建输出目录 ，生成文件的目录名称（要和baseUrl的生产环境路径一致）
   outputDir: 'dist',
@@ -144,7 +144,7 @@ module.exports = {
   },
   // webpack-dev-server 相关配置
   devServer: {
-    open: true, //配置自动启动浏览器
+    open: false, //配置自动启动浏览器
     host: 'localhost', // 允许外部ip访问 localhost 0.0.0.0
     port: 8080, // 端口号
     https: false, // 启用https

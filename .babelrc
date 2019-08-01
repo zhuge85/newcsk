@@ -12,12 +12,12 @@
   ],
   "plugins": [
     // babel-plugin-component
-    [
-      "component",
-      {
-        "libraryName": "element-ui",
-        "styleLibraryName": "theme-chalk"
-      }
-    ]
+    // [
+    //   "component",
+    //   {
+    //     "libraryName": "element-ui",
+    //     "styleLibraryName": "theme-chalk"
+    //   }
+    // ]
   ]
 }

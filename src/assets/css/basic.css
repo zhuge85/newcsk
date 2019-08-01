@@ -193,6 +193,9 @@ a {
 a:hover {
   color: #181b31;
 }
+:focus {
+  outline: 0;
+}
 * {
   -webkit-tap-highlight-color: transparent;
 }
