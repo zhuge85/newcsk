@@ -25,8 +25,8 @@ import { throttle, backtotop } from '@a/js/tools'
 export default {
   components: { Progress },
   data() {
-    let arr1 = ['首页', 'vuex', 'slot', 'router', 'nextTick', '混入', '请求数据', '组件传值', '自定义插件', '自定义指令'],
-      arr2 = ['/home', '/vuex', '/slot', '/router', '/nextTick', '/mixins', '/getdate', '/getvalue', '/plugin', '/directives']
+    let arr1 = ['首页', '生命周期', 'vuex', 'slot', 'router', 'nextTick', '混入', '请求数据', '组件传值', '自定义插件', '自定义指令'],
+      arr2 = ['/home', '/life', '/vuex', '/slot', '/router', '/nextTick', '/mixins', '/getdate', '/getvalue', '/plugin', '/directives']
     return {
       navs: listFun(arr1, arr2),
       scrollTop: 0

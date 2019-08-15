@@ -17,6 +17,10 @@ const pcRoute = [
     component: resolve => require(['@v/pc/Vuex'], resolve)
   },
   {
+    path: '/life',
+    component: resolve => require(['@v/pc/Life'], resolve)
+  },
+  {
     path: '/plugin',
     component: resolve => require(['@v/pc/Plugin'], resolve)
   },

@@ -103,9 +103,10 @@ export const debounce = (func, delay = 1000) => {
 }
 /**
  * 时间戳转化为日期
- * @param {Function} func [执行函数]
+ * @param {String} func [时间戳]
+ * @param {Boolean} bool [只显示显示时间]
  */
-export const timestampToTime = timestamp => {
+export const timestampToTime = (timestamp, bool) => {
   timestamp = parseInt(timestamp)
   //时间戳为10位需*1000，时间戳为13位的话不需乘1000
   let len = timestamp.toString().length
@@ -121,9 +122,22 @@ export const timestampToTime = timestamp => {
     h = checkTime(date.getHours()),
     m = checkTime(date.getMinutes()),
     s = checkTime(date.getSeconds())
+  let today = new Date().getDate()
+  if (bool || today == D) {
+    return h + ':' + m + ':' + s
+  }
   return Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s
 }
-
+/**
+ * 将日期转化为时间戳
+ * @param {String} datetime [日期]
+ * @param {Boolean} bool [只显示显示时间]
+ */
+export const timeTodatetime = (timestamp, bool) => {
+  timestamp = timestamp.substring(0, 19)
+  timestamp = timestamp.replace(/-/g, '/')
+  return new Date(date).getTime()
+}
 // const stopBubble = event => {
 //   e = event || window.event;
 //   if (e.stopPropagation) {

@@ -17,8 +17,7 @@
       </div>
     </div>
     <div class="item">
-      <pre><code>import { timestampToTime } from '@a/js/tools'
-export default {
+      <pre><code>export default {
   data() {
     return {
       show: false,
@@ -58,16 +57,13 @@ export default {
     },
     composeList() {
       let count = 2000
-      let start = new Date().getTime()
-      console.log('开始时间' + timestampToTime(start))
-      for (let i = 0; i < count; i++) {
+      console.time('生成li用时');
+      for (let i = 0; i &gt; count; i++) {
         this.$set(this.list, i, 'list测试信息～～呜啦啦啦' + i)
       }
       this.$nextTick(() => {
         // DOM 更新了
-        let end = new Date().getTime()
-        console.log('结束时间 ' + timestampToTime(end))
-        console.log('生成&lt;li&gt;的个数' + document.querySelectorAll('.list li').length + '用时：' + (end - start) + 'ms')
+        console.timeEnd('生成li用时');
       })
     },
   }
@@ -80,7 +76,7 @@ export default {
 </template>
 
 <script>
-import { timestampToTime } from '@a/js/tools'
+// import { timestampToTime } from '@a/js/tools'
 export default {
   data() {
     return {
@@ -121,16 +117,13 @@ export default {
     },
     composeList() {
       let count = 2000
-      let start = new Date().getTime()
-      console.log('开始时间' + timestampToTime(start))
+      console.time('生成li用时');
       for (let i = 0; i < count; i++) {
         this.$set(this.list, i, 'list测试信息～～呜啦啦啦' + i)
       }
       this.$nextTick(() => {
         // DOM 更新了
-        let end = new Date().getTime()
-        console.log('结束时间 ' + timestampToTime(end))
-        console.log('生成<li>的个数' + document.querySelectorAll('.list li').length + '用时：' + (end - start) + 'ms')
+        console.timeEnd('生成li用时');
       })
     },
   }

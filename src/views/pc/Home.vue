@@ -29,11 +29,31 @@
       <button class="btn btn-blue">橙色</button>
     </div>
     <div class="item">
-      <div class="btn" @click="openRoom">聊天框</div>
-      <div class="btn" @click="open">赛车</div>
+      <div class="btn btn-warning" @click="openRoom">聊天框</div>
+      <div class="btn btn-warning" @click="open">赛车</div>
     </div>
     <Chat ref="chat" v-if="isVisible" :isVisible="isVisible" @close="toggleisVisible"></Chat>
     <Car :show="show" @close="close"></Car>
+    <h2>VUE的特性</h2>
+    <ul>
+      <li>1、轻量级的框架</li>
+      <li>2、双向数据绑定</li>
+      <li>3、指令</li>
+      <li>4、插件化</li>
+    </ul>
+    <h2>vue的优点</h2>
+    <ul>
+      <li>1、简单易用</li>
+      <li>2、灵活渐进式</li>
+      <li>3、轻量高效</li>
+      <li>4、MVVM</li>
+
+      <li>5、组件化</li>
+    </ul>
+    <h2>vue的缺点</h2>
+    <ul>
+      <li>1、VUE不支持IE8</li>
+    </ul>
   </div>
 </template>
 <script>

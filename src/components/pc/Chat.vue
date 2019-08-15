@@ -17,7 +17,7 @@
             <div class="chat-block" :class="item.inde ? 'myself' : 'other'">
               <div class="avatar"><img :src="item.image" alt=""></div>
               <div class="content">
-                <div class="top"><span class="name">{{item.username}}</span><span class="time">{{item.time}}</span></div>
+                <div class="top"><span class="name">{{item.username}}</span><span class="time">{{item.time | matchTime}}</span></div>
                 <div class="bot" v-html="item.content"></div>
               </div>
             </div>
@@ -34,6 +34,7 @@
   </div>
 </template>
 <script>
+import { timestampToTime } from '@a/js/tools'
 export default {
   name: 'chat',
   directives: {
@@ -80,21 +81,21 @@ export default {
           id: 1,
           username: '阿富汗',
           image: 'http://www.zhujianbo.cn/collection/images/a2.jpg',
-          time: '16:01:11',
+          time: '2019-05-13 16:01:11',
           content: 'fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdsfdsfdsfdsfdsfdsfdsfdsfdsfdsfdsfdsfdsf'
         },
         {
           id: 2,
           username: '陈世美',
           image: 'http://www.zhujianbo.cn/collection/images/a4.jpg',
-          time: '16:02:31',
+          time: '2019-05-13 16:02:31',
           content: '秒速飞艇'
         },
         {
           id: 3,
           username: '爱米巢',
           image: 'http://www.zhujianbo.cn/collection/images/a1.jpg',
-          time: '16:04:53',
+          time: '2019-05-13 16:04:53',
           content: 'sdfgfjgjgf',
           inde: 1
         },
@@ -102,21 +103,21 @@ export default {
           id: 4,
           username: '非赢不可',
           image: 'http://www.zhujianbo.cn/collection/images/a7.jpg',
-          time: '16:05:14',
+          time: '2019-05-13 16:05:14',
           content: '五名不是中了五名不是中了五名不是中了五名不是中了五名不是中了五名不是中了五名不是中了五名不是中了'
         },
         {
           id: 5,
           username: '猎人',
           image: 'http://www.zhujianbo.cn/collection/images/a9.jpg',
-          time: '16:05:42',
+          time: '2019-05-13 16:05:42',
           content: '改了没四'
         },
         {
           id: 6,
           username: '爱米巢',
           image: 'http://www.zhujianbo.cn/collection/images/a1.jpg',
-          time: '16:06:07',
+          time: '2019-05-13 16:06:07',
           content: '没中',
           inde: 1
         },
@@ -124,28 +125,28 @@ export default {
           id: 7,
           username: '阿富汗',
           image: 'http://www.zhujianbo.cn/collection/images/a2.jpg',
-          time: '16:06:19',
+          time: '2019-05-13 16:06:19',
           content: 'fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdsfdsfdsfdsfdsfdsfdsfdsfdsfdsfdsfdsfdsf'
         },
         {
           id: 8,
           username: '非赢不可',
           image: 'http://www.zhujianbo.cn/collection/images/a7.jpg',
-          time: '16:06:29',
+          time: '2019-05-13 16:06:29',
           content: '五名不是中了五名不是中了五名不是中了五名不是中了五名不是中了五名不是中了五名不是中了五名不是中了'
         },
         {
           id: 9,
           username: '陈世美',
           image: 'http://www.zhujianbo.cn/collection/images/a4.jpg',
-          time: '16:07:12',
+          time: '2019-05-13 16:07:12',
           content: '秒速飞艇'
         },
         {
           id: 10,
           username: '猎人',
           image: 'http://www.zhujianbo.cn/collection/images/a9.jpg',
-          time: '16:08:47',
+          time: '2019-05-13 16:08:47',
           content: '改了没四'
         }
       ]
@@ -225,5 +226,13 @@ export default {
       console.log('断开连接', e);
     },
   },
+  filters: {
+    matchTime(time) {
+      if (time.length == 19) {
+        return time
+      }
+      return timestampToTime(time)
+    }
+  }
 }
 </script>
