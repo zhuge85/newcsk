@@ -20,7 +20,8 @@ export default {
     setTimeout(() => {
       let dom = document.getElementById('loading-wrapper')
       dom ? document.body.removeChild(dom) : '';
-      document.documentElement.removeAttribute('class')
+      // document.documentElement.removeAttribute('class', 'loaded')
+      document.documentElement.classList.remove('class', 'loaded')
     }, 1200)
     if (this._isMobile() && this.$route.path.indexOf('/m/') == -1) {
       this.$router.push('/m/');

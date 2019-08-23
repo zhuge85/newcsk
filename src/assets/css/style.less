@@ -78,34 +78,75 @@
     box-shadow: 0 0 5px #ddd;
     .container {
       display: flex;
+      .mb & {
+        display: block;
+      }
     }
     .logo {
       width: 40px;
       height: 40px;
-      cursor: pointer;
+      .mb & {
+        width: 100%;
+      }
       .flubber {
         width: 40px;
         height: 40px;
         background-image: url('../img/flubber.png');
         background-size: cover;
+        cursor: pointer;
         animation: bees 1s steps(1) infinite;
+        .mb & {
+          float: left;
+          position: relative;
+          width: 40px;
+          height: 40px;
+        }
+      }
+      .toggle {
+        float: right;
+        padding: 9px;
+        display: none;
+        .mb & {
+          position: relative;
+          width: 40px;
+          height: 40px;
+          display: block;
+        }
+        .icon-bar {
+          display: block;
+          width: 22px;
+          height: 2px;
+          border-radius: 1px;
+          background-color: #fff;
+          + .icon-bar {
+            margin-top: 4px;
+          }
+        }
       }
     }
   }
   .navbar-nav {
     display: flex;
     flex: 1;
+    .mb & {
+      margin: 10px -15px 0;
+      background-color: #fff;
+    }
   }
   ul {
     margin: 0 0 0 auto;
     display: flex;
+    .mb & {
+      width: 100%;
+      display: block;
+    }
     li {
       line-height: 40px;
     }
     a {
       margin: 0 10px;
-      padding: 10px;
       font-size: 15px;
+      display: block;
       &.active {
         color: #fff;
         -webkit-background-clip: text;

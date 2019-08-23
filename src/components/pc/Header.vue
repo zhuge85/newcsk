@@ -2,11 +2,16 @@
   <header class="header">
     <nav class="navbar">
       <div class="container">
-        <div class="logo" @click="pathTo" title="返回首页">
-          <div class="flubber"></div>
+        <div class="logo" title="返回首页">
+          <div class="flubber" @click="pathTo"></div>
+          <button class="toggle btn btn-green" @click="handlShow">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
         </div>
         <div class="navbar-nav">
-          <ul>
+          <ul v-show="show">
             <li v-for="item in navs" :key="item.id">
               <router-link :to="item.path">{{ item.title }}</router-link>
             </li>
@@ -29,10 +34,12 @@ export default {
       arr2 = ['/home', '/life', '/vuex', '/slot', '/router', '/nextTick', '/mixins', '/getdate', '/getvalue', '/plugin', '/directives']
     return {
       navs: listFun(arr1, arr2),
-      scrollTop: 0
+      scrollTop: 0,
+      show: true
     }
   },
   created() {
+    this.handlShow();
     this.$nextTick(() => {
       let isHas = document.querySelector('#backtotop');
       if (!isHas) {
@@ -46,6 +53,12 @@ export default {
         window.addEventListener('scroll', throttle(this.onScroll), false);
       }
     })
+  },
+  mounted() {
+    window.addEventListener('resize', throttle(this.handleResize), false)
+  },
+  destroyed() {
+    window.removeEventListener('resize', throttle(this.handleResize), false)
   },
   methods: {
     pathTo() {
@@ -62,6 +75,29 @@ export default {
       } else {
         backtotop.classList.remove('showme');
       }
+    },
+    handlShow() {
+      if (this._isMobile() || window.innerWidth < 1100) {
+        this.show = !this.show
+      }
+    },
+    _isMobile() {
+      let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+      return flag;
+    },
+    handleResize() {
+      if (this._isMobile() || window.innerWidth < 1100) {
+        this.show = false
+        document.documentElement.classList.add('mb')
+      } else {
+        this.show = true
+        document.documentElement.classList.remove('mb')
+      }
+    }
+  },
+  watch: {
+    $route(newVal, oldVal) {
+      this.handlShow();
     }
   }
 }

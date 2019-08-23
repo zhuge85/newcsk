@@ -80,33 +80,74 @@
 .header .navbar .container {
   display: flex;
 }
+.mb .header .navbar .container {
+  display: block;
+}
 .header .navbar .logo {
   width: 40px;
   height: 40px;
-  cursor: pointer;
+}
+.mb .header .navbar .logo {
+  width: 100%;
 }
 .header .navbar .logo .flubber {
   width: 40px;
   height: 40px;
   background-image: url('../img/flubber.png');
   background-size: cover;
+  cursor: pointer;
   animation: bees 1s steps(1) infinite;
+}
+.mb .header .navbar .logo .flubber {
+  float: left;
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+.header .navbar .logo .toggle {
+  float: right;
+  padding: 9px;
+  display: none;
+}
+.mb .header .navbar .logo .toggle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+.header .navbar .logo .toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: #fff;
+}
+.header .navbar .logo .toggle .icon-bar + .icon-bar {
+  margin-top: 4px;
 }
 .header .navbar-nav {
   display: flex;
   flex: 1;
 }
+.mb .header .navbar-nav {
+  margin: 10px -15px 0;
+  background-color: #fff;
+}
 .header ul {
   margin: 0 0 0 auto;
   display: flex;
+}
+.mb .header ul {
+  width: 100%;
+  display: block;
 }
 .header ul li {
   line-height: 40px;
 }
 .header ul a {
   margin: 0 10px;
-  padding: 10px;
   font-size: 15px;
+  display: block;
 }
 .header ul a.active {
   color: #fff;

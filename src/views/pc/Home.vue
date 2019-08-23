@@ -94,16 +94,22 @@ export default {
       this.$message('this.value的类型是：' + typeof this.value)
     },
     openRoom() {
-      this.isVisible ? this.$refs.chat.max() : this.isVisible = true
+      if (!this._isMobile()) {
+        this.isVisible ? this.$refs.chat.max() : this.isVisible = true
+      }
     },
     open() {
-      this.show = true
+      if (!this._isMobile()) {
+        this.show = true
+      }
     },
     close() {
       this.show = false
     },
     toggleisVisible() {
-      this.isVisible = !this.isVisible
+      if (!this._isMobile()) {
+        this.isVisible = !this.isVisible
+      }
     },
     time() {
       let time = 10
@@ -122,6 +128,10 @@ export default {
         clearInterval(this.timer);
         this.timer = null
       })
+    },
+    _isMobile() {
+      let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+      return flag;
     }
   }
 }
