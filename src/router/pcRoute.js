@@ -13,6 +13,10 @@ const pcRoute = [
     component: resolve => require(['@v/pc/GetDate'], resolve)
   },
   {
+    path: '/observable',
+    component: resolve => require(['@v/pc/Observable'], resolve)
+  },
+  {
     path: '/vuex',
     component: resolve => require(['@v/pc/Vuex'], resolve)
   },

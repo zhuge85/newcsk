@@ -47,6 +47,14 @@ module.exports = {
    *  有了map就可以像未加密的代码一样，准确的输出是哪一行哪一列有错。
    **/
   productionSourceMap: false,
+  /**
+   * webpack 其实自带有一个优化打包的方法(Gzip 文件压缩)，只是 vue-cli 默认没有使用。
+   * 1 在项目 根目录config/index.js  中  build 内找到  productionGzip: false， 把 false改为true。与 productionSourceMap 刚好相反。
+   * 2 安装插件 compression-webpack-plugin　　注:安装的时候带上版本号，现在 compression-webpack-plugin 2.0已出，默认该命令安装最新版，最新版本和当前的webpack不匹配，要报错。
+   * npm install --save-dev compression-webpack-plugin@1.1.12
+   * 3 compression-webpack-plugin安装完成后，npm run build 执行后会发现js文件夹内每个js文件都有一个相对应的gz后缀文件，而且gz文件比相对应的js文件小很多。浏览器如果支持 g-zip 会自动查找有没有gz文件，找到了就直接加载gz文件然后本地解压并执行。
+   *  */
+  // productionGzip: false,
 
   // webpack链接API，用于生成和修改webapck配置，https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
   chainWebpack: config => {

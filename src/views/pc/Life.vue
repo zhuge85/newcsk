@@ -1,5 +1,5 @@
 <template>
-  <div class="life">
+  <div class="life" v-highlight>
     <h1>生命周期</h1>
     <ul>
       <li><strong>beforeCreate：</strong>在new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建。在beforeCreate生命周期执行的时候，data和methods中的数据都还没有初始化。不能在这个阶段使用data中的数据和methods中的方法</li>
@@ -15,11 +15,119 @@
     <p>beforeCreate、created、beforeMount、mounted</p>
     <h2>DOM 渲染在哪个周期中就已经完成？</h2>
     <p>mounted</p>
+    <h2>监听组件的生命周期</h2>
+    <div class="item">
+      <Child1 ref="one" @hook:mounted="doSomething"></Child1>
+    </div>
+    <div class="item">
+      <pre><code>// 父组件
+&lt;Child1 ref="one" @hook:mounted="doSomething"&gt;&lt;/Child1&gt;
+
+&lt;script&gt;
+import Child1 from "@c/pc/LifeChild";
+export default {
+  components: { Child1 },
+  methods: {
+    doSomething() {
+      console.log(this.$refs.one.$el.innerHTML)
+      this.$refs.one.$el.innerHTML = '我是子组件完成了mounted后的值'
+      console.log('我是子组件完成了mounted后的值')
+    }
+  }
+}
+&lt;/script&gt;
+
+// 子组件
+&lt;template&gt;
+  &lt;div&gt;我是子组件的原始值&lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+    </div>
+    <p>当然这里不仅仅是可以监听mounted，其它的生命周期事件，例如：created，updated等都可以</p>
+    <h2>函数式组件</h2>
+    <p>函数式组件，即无状态，无法实例化，内部没有任何生命周期处理方法，非常轻量，因而渲染性能高，特别适合用来只依赖外部数据传递而变化的组件。</p>
+    <ul>
+      <li>在template标签里面标明functional</li>
+      <li>只接受props值</li>
+      <li>不需要script标签</li>
+    </ul>
+    <Child2 :items="lists" :item-click="item => (clicked = item)"></Child2>
+    <p>显示点击目标: {{ clicked }}</p>
+    <div class="item">
+      <pre><code>// 父组件
+&lt;Child2 :items="lists" :item-click="item => (clicked = item)"&gt;&lt;/Child2&gt;
+&lt;p&gt;显示点击目标: { { clicked } }&lt;/p&gt;
+
+&lt;script&gt;
+import Child2 from "@c/pc/FuncChild";
+export default {
+  components: { Child2 },
+  data() {
+    return {
+      clicked: '',
+      lists: [
+        {
+          id: 1,
+          name: '小朱'
+        },
+        {
+          id: 2,
+          name: '小黄'
+        },
+        {
+          id: 3,
+          name: '小黑'
+        },
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+
+// 子组件
+&lt;template functional&gt;
+  &lt;div&gt;
+    &lt;p v-for="item in props.items" :key="item.id" @click="props.itemClick(item);"&gt;{ { item } } &lt;button class="btn btn-blue"&gt;点我试试&lt;/button&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+    </div>
   </div>
 </template>
 
 <script>
+import Child1 from "@c/pc/LifeChild";
+import Child2 from "@c/pc/FuncChild";
 export default {
-
+  name: 'life',
+  data() {
+    return {
+      clicked: '',
+      lists: [
+        {
+          id: 1,
+          name: '小朱'
+        },
+        {
+          id: 2,
+          name: '小黄'
+        },
+        {
+          id: 3,
+          name: '小黑'
+        },
+      ]
+    }
+  },
+  components: {
+    Child1, Child2
+  },
+  methods: {
+    doSomething() {
+      console.log(this.$refs.one.$el.innerHTML)
+      this.$refs.one.$el.innerHTML = '我是子组件完成了mounted后的值'
+      console.log('我是子组件完成了mounted后的值')
+    }
+  }
 }
 </script>

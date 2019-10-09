@@ -51,6 +51,10 @@ Vue.use(Msgbox)
 import Dialog from './plugin/dialog'
 Vue.use(Dialog)
 
+// 引入 Demo
+import Demo from './plugin/demo'
+Vue.use(Demo)
+
 import './assets/css/basic.less'
 import './assets/css/style.less'
 

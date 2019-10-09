@@ -1,5 +1,5 @@
 <template>
-  <div class="plugin">
+  <div class="plugin" v-highlight>
     <h1>自定义插件</h1>
     <div class="item">
       <input class="zhu-input" v-focus type="text" @click="test($event)" placeholder="请选择日期">
@@ -31,6 +31,35 @@
       <button class="btn btn-blue" type="primary" @click.stop="msg4">loading</button>
       <button class="btn btn-pink" type="primary" @click.stop="msg5">loading</button>
     </div>
+    <h2>vue组件全局注册 写法和用法</h2>
+    <h3>先在plugin文件夹下创建demo文件夹</h3>
+    <p>1. 创建一个自己Demo组件 那么我们就先在demo文件夹下创建 Demo.vue</p>
+    <div class="item">
+      <pre><code>&lt;template&gt;
+  &lt;div class='demo-box'&gt;I'm a demo!&lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+    </div>
+    <p>2. 继续在demo文件夹下建一个相关的index.js文件</p>
+    <div class="item">
+      <pre><code>import DemoComponent from './Demo'
+
+const Demo = {
+  install: function(Vue) {
+    Vue.component('Demo', DemoComponent)
+  }
+}
+
+export default Demo</code></pre>
+    </div>
+    <p>3. 在主文件main.js中 引入刚才定义的组件 和 应用 这个组件了</p>
+    <div class="item">
+      <pre><code>// 引入 Demo
+import Demo from './plugin/demo'
+Vue.use(Demo)</code></pre>
+    </div>
+    <p>4. 在任何想用这个组件的地方插入&lt;Demo&gt;&lt;/Demo&gt;了 组件相应的样式和js代码可以直接写在第一步中的文件之中</p>
+    <Demo></Demo>
   </div>
 </template>
 
